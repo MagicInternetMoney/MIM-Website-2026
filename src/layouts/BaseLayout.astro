@@ -1,0 +1,21 @@
+---
+import "../styles/global.css";
+
+const { title = "Magic Internet Money | MIM", description = "Magic Internet Money, the original wink at crypto belief, internet culture, and decentralized value." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://api.dexscreener.com" />
+    <link rel="preconnect" href="https://dexscreener.com" />
+    <link rel="preconnect" href="https://plugin.jup.ag" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

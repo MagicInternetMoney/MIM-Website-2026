@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Build output and framework caches
+dist/
+.astro/
+.vite/
+.vercel/
+.netlify/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p8
+*.p12
+*.crt
+*.cer
+*.csr
+*.jks
+*.keystore
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.wallet
+*.keypair
+wallet.json
+keypair.json
+service-account*.json
+credentials*.json
+secrets*.json
+npm-token*
+.npmrc
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log
+pnpm-debug.log*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
