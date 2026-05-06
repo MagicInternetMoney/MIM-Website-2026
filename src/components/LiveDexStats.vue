@@ -99,7 +99,7 @@ const h24 = computed(() => Number(pair.value?.priceChange?.h24));
 const changeText = computed(() =>
   Number.isFinite(h24.value) ? `24h ${h24.value > 0 ? "+" : ""}${h24.value.toFixed(2)}%` : "24h --",
 );
-const changeClass = computed(() => (h24.value >= 0 ? "text-mim-mint" : "text-mim-red"));
+const changeClass = computed(() => (h24.value >= 0 ? "text-mim-green" : "text-mim-red"));
 const chartSrc = computed(() => {
   const id = pair.value?.pairAddress || CONTRACT_ADDRESS;
   return `https://dexscreener.com/solana/${id}?embed=1&theme=dark`;
@@ -117,11 +117,11 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <div v-if="props.mode === 'ticker'" class="overflow-hidden border-y border-white/15 bg-[#11100d]" aria-label="Live price ticker">
+    <div v-if="props.mode === 'ticker'" class="overflow-hidden border-y border-mim-violet/30 bg-mim-night" aria-label="Live price ticker">
       <div class="flex min-h-12 w-max items-center gap-7 px-4 text-sm text-mim-paper/72 [animation:mim-marquee_24s_linear_infinite]">
         <template v-for="copy in 2" :key="copy">
           <span class="font-black text-mim-ink">MIM</span>
-          <strong class="text-mim-gold">{{ price }}</strong>
+          <strong class="text-mim-cyan">{{ price }}</strong>
           <span :class="changeClass">{{ changeText }}</span>
           <span>Vol {{ compact(pair?.volume?.h24) }}</span>
           <span>Liq {{ compact(pair?.liquidity?.usd) }}</span>
@@ -149,7 +149,7 @@ onUnmounted(() => {
           <button class="rounded-lg border border-white/15 px-3 py-1 text-sm font-black text-mim-ink" type="button" @click="copyContract">
             {{ copied ? "Copied" : "Copy" }}
           </button>
-          <code class="col-span-2 break-words text-sm text-mim-gold">{{ CONTRACT_ADDRESS }}</code>
+          <code class="col-span-2 break-words text-sm text-mim-cyan">{{ CONTRACT_ADDRESS }}</code>
         </div>
       </div>
       <div class="h-[650px] overflow-hidden rounded-lg border border-white/15 bg-mim-coal sm:h-[720px]">

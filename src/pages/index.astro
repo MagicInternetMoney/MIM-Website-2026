@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LiveDexStats from "../components/LiveDexStats.vue";
+import MimGallery from "../components/MimGallery.vue";
+import CopyContract from "../components/CopyContract.vue";
 import heroImage from "../../assets/hero-mim.png";
 import loreImage from "../../assets/lore-mim.jpeg";
 import communityImage from "../../assets/high-council.png";
@@ -36,15 +38,32 @@ const loreLinks = [
   { label: "Original Plan Spreadsheet", href: "https://docs.google.com/spreadsheets/d/1l6pSrGA9t1eMzZeC9jtdGbuLGp-lMx_vHzfjAL7dCeg/edit?usp=sharing" },
   { label: "2017 CoinMarketCap Archive", href: "https://web.archive.org/web/20171123024206/https://coinmarketcap.com/currencies/magic-internet-money/" },
 ];
+type GalleryCategory = "Art" | "Proof" | "Origin";
 const gallery = [
-  { src: minionsImage, alt: "Minions of Poverty MIM meme", class: "sm:col-span-6" },
-  { src: headerImage, alt: "Magic Internet Money banner artwork", class: "sm:col-span-6" },
-  { src: summonImage, alt: "Summoning Magic Internet Money artwork", class: "sm:col-span-4" },
-  { src: apocImage, alt: "Magic Internet Money apocalyptic artwork", class: "sm:col-span-4" },
-  { src: communityImage, alt: "Meeting of the high council artwork", class: "sm:col-span-4" },
-  { src: yearsImage, alt: "MIM meme portrait", class: "sm:col-span-6 lg:col-span-4" },
-];
-const proofItems = [
+  { src: heroImage, alt: "Magic Internet Money illustrated hero banner", title: "High wizard table", category: "Art" },
+  { src: headerImage, alt: "Magic Internet Money banner artwork", title: "All time high loading", category: "Art" },
+  { src: communityImage, alt: "Meeting of the high council artwork", title: "Meeting of the high council", category: "Art" },
+  { src: minionsImage, alt: "Minions of Poverty MIM meme", title: "Minions of Poverty", category: "Art" },
+  { src: loreImage, alt: "Magic Internet Money ATM artwork", title: "MIM ATM", category: "Art" },
+  { src: summonImage, alt: "Summoning Magic Internet Money artwork", title: "Summon the magic", category: "Art" },
+  { src: apocImage, alt: "Magic Internet Money apocalyptic artwork", title: "MIM apocalypse", category: "Art" },
+  { src: yearsImage, alt: "MIM meme portrait", title: "84 years", category: "Art" },
+  { src: originalLogo, alt: "Original Magic Internet Money logo", title: "Original MIM logo", category: "Origin" },
+  { src: proofNamecheap, alt: "Namecheap order summary for magicinternetmoney.org dated December 19, 2013", title: "2013 domain receipt", category: "Proof" },
+  { src: proofEmails, alt: "Inbox search results showing Magic Internet Money exchange outreach in February and March 2014", title: "2014 exchange outreach", category: "Proof" },
+  { src: proofBitcointalk, alt: "Bitcointalk announcement for Magic Internet Money dated February 13, 2014", title: "Bitcointalk announcement", category: "Proof" },
+  { src: proofCmc, alt: "Archived CoinMarketCap listing for Magic Internet Money", title: "CoinMarketCap archive", category: "Proof" },
+  { src: proofExtra, alt: "Additional early Magic Internet Money proof image", title: "First alt season receipt", category: "Proof" },
+].map((item) => ({
+  src: item.src.src,
+  width: item.src.width,
+  height: item.src.height,
+  alt: item.alt,
+  title: item.title,
+  category: item.category as GalleryCategory,
+}));
+
+const featuredProofItems = [
   {
     src: proofNamecheap,
     alt: "Namecheap order summary for magicinternetmoney.org dated December 19, 2013",
@@ -73,26 +92,20 @@ const proofItems = [
     copy: "Archived CoinMarketCap page lists Magic Internet Money under ticker MIM.",
     class: "lg:col-span-5",
   },
-  {
-    src: proofExtra,
-    alt: "Additional early Magic Internet Money proof image",
-    title: "First alt season receipts",
-    copy: "Additional preserved proof from the original 2013 and 2014 MIM era.",
-    class: "lg:col-span-12",
-  },
 ];
 ---
 
 <BaseLayout>
-  <header class="fixed inset-x-0 top-0 z-30 border-b border-white/15 bg-[#090806]/75 backdrop-blur-xl">
+  <header class="fixed inset-x-0 top-0 z-30 border-b border-mim-violet/30 bg-mim-night/80 backdrop-blur-xl">
     <div class="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
       <a class="inline-flex items-center gap-3 font-black text-mim-ink" href="#top" aria-label="Magic Internet Money home">
-        <img class="size-10 rounded-full border border-mim-gold/65 bg-white object-cover" src={originalLogo.src} width={originalLogo.width} height={originalLogo.height} alt="Original Magic Internet Money logo" />
+        <img class="size-10 rounded-full border border-mim-cyan/70 bg-white object-cover shadow-glow" src={originalLogo.src} width={originalLogo.width} height={originalLogo.height} alt="Original Magic Internet Money logo" />
         <span>MIM</span>
       </a>
       <nav class="flex items-center gap-4 overflow-x-auto text-sm font-bold text-mim-paper/70 md:gap-6" aria-label="Primary navigation">
         <a class="hover:text-mim-ink" href="#lore">Lore</a>
         <a class="hover:text-mim-ink" href="#proof">Proof</a>
+        <a class="hover:text-mim-ink" href="#gallery">Gallery</a>
         <a class="hover:text-mim-ink" href="#buy">Buy</a>
         <a class="hover:text-mim-ink" href="#tokenomics">Tokenomics</a>
         <a class="hover:text-mim-ink" href="#community">Community</a>
@@ -109,17 +122,17 @@ const proofItems = [
         height={heroImage.height}
         alt="Magic Internet Money illustrated banner"
       />
-      <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(9,8,6,0.88),rgba(9,8,6,0.32)_55%,rgba(9,8,6,0.62)),linear-gradient(0deg,#090806,rgba(9,8,6,0.04)_58%)]"></div>
+      <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(5,4,8,0.9),rgba(17,9,21,0.32)_55%,rgba(5,4,8,0.62)),linear-gradient(0deg,#050408,rgba(5,4,8,0.04)_58%)]"></div>
       <div class="mim-shell pb-[10svh] pt-24">
-        <p class="eyebrow">ca: <span class="normal-case tracking-normal text-mim-ink/90">{contract.slice(0, 5)}...{contract.slice(-5)}</span></p>
-        <h1 class="max-w-4xl text-[clamp(3.25rem,12vw,8.8rem)] font-black leading-[0.9] text-mim-ink">Magic Internet Money</h1>
+        <CopyContract contract={contract} client:load />
+        <h1 class="arcane-title max-w-4xl text-[clamp(3.25rem,12vw,8.8rem)] font-black leading-[0.9]">Magic Internet Money</h1>
         <p class="mt-6 max-w-2xl text-lg leading-relaxed text-mim-paper sm:text-xl">
           The early crypto in-joke that became a thesis: code, community, conviction, and internet culture can summon value from thin air.
         </p>
-        <div class="mt-6 flex max-w-xl items-center gap-4 rounded-lg border border-white/15 bg-mim-night/70 p-3 backdrop-blur">
-          <img class="size-16 rounded-full border border-mim-gold/65 bg-white object-cover" src={originalLogo.src} width={originalLogo.width} height={originalLogo.height} alt="Original Magic Internet Money logo" />
+        <div class="mt-6 flex max-w-xl items-center gap-4 rounded-lg border border-mim-cyan/30 bg-mim-night/75 p-3 shadow-glow backdrop-blur">
+          <img class="size-16 rounded-full border border-mim-cyan/70 bg-white object-cover" src={originalLogo.src} width={originalLogo.width} height={originalLogo.height} alt="Original Magic Internet Money logo" />
           <div>
-            <p class="m-0 text-sm font-black text-mim-gold">Original coin logo</p>
+            <p class="m-0 text-sm font-black text-mim-green">Original coin logo</p>
             <p class="m-0 mt-1 text-sm leading-relaxed text-mim-paper/72">The hat-and-rabbit MIM mark from the 2013 and 2014 era.</p>
           </div>
         </div>
@@ -178,9 +191,9 @@ const proofItems = [
           <div class="mt-7 grid gap-2">
             {
               loreLinks.map((link) => (
-                <a class="flex min-h-12 items-center justify-between gap-4 rounded-lg border border-white/15 bg-mim-coal px-4 text-sm font-black text-mim-ink transition hover:border-mim-gold/60" href={link.href} target="_blank" rel="noreferrer">
+                <a class="flex min-h-12 items-center justify-between gap-4 rounded-lg border border-mim-violet/30 bg-mim-coal px-4 text-sm font-black text-mim-ink transition hover:border-mim-cyan/70" href={link.href} target="_blank" rel="noreferrer">
                   <span>{link.label}</span>
-                  <span class="text-mim-gold">Open</span>
+                  <span class="text-mim-green">Open</span>
                 </a>
               ))
             }
@@ -188,7 +201,7 @@ const proofItems = [
         </div>
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-12">
           {
-            proofItems.map((item) => (
+            featuredProofItems.map((item) => (
               <article class:list={["panel overflow-hidden", item.class]}>
                 <img class="h-72 w-full object-cover object-top sm:h-80" src={item.src.src} width={item.src.width} height={item.src.height} alt={item.alt} />
                 <div class="p-5">
@@ -202,33 +215,12 @@ const proofItems = [
       </div>
     </section>
 
-    <section class="mim-section" aria-label="Meme gallery">
-      <div class="mb-7 max-w-3xl">
-        <p class="eyebrow">Meme gallery</p>
-        <h2 class="text-4xl font-black leading-none sm:text-6xl">Artifacts from the timeline</h2>
-      </div>
-      <div class="grid grid-cols-1 gap-3 sm:grid-cols-12">
-        {
-          gallery.map((item) => (
-            <img
-              class:list={[
-                "min-h-[260px] w-full rounded-lg border border-white/15 bg-mim-coal object-cover sm:min-h-[240px]",
-                item.class,
-              ]}
-              src={item.src.src}
-              width={item.src.width}
-              height={item.src.height}
-              alt={item.alt}
-            />
-          ))
-        }
-      </div>
-    </section>
+    <MimGallery items={gallery} client:load />
 
     <LiveDexStats mode="markets" client:load />
 
     <section id="community" class="mim-section">
-      <div class="grid overflow-hidden rounded-lg border border-white/15 bg-mim-coal lg:grid-cols-[0.95fr_1.05fr]">
+      <div class="grid overflow-hidden rounded-lg border border-mim-violet/30 bg-mim-coal shadow-glow lg:grid-cols-[0.95fr_1.05fr]">
         <div class="p-6 sm:p-8 lg:p-10">
           <p class="eyebrow">Community</p>
           <h2 class="text-4xl font-black leading-none sm:text-6xl">The timeline is the treasury.</h2>
@@ -258,7 +250,7 @@ const proofItems = [
         <p class="eyebrow">Music</p>
         <h2 class="text-4xl font-black leading-none sm:text-6xl">Magic on SoundCloud</h2>
       </div>
-      <div class="overflow-hidden rounded-lg border border-white/15 bg-mim-coal">
+      <div class="overflow-hidden rounded-lg border border-mim-violet/30 bg-mim-coal shadow-glow">
         <iframe
           class="block h-[460px] w-full border-0"
           title="Magic Internet Money SoundCloud player"
@@ -294,7 +286,7 @@ const proofItems = [
     </section>
   </main>
 
-  <footer class="border-t border-white/15 px-4 py-7 text-mim-paper/65 sm:px-6 lg:px-8">
+  <footer class="border-t border-mim-violet/30 px-4 py-7 text-mim-paper/65 sm:px-6 lg:px-8">
     <div class="mx-auto flex w-full max-w-[1320px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <span class="font-black text-mim-ink">Magic Internet Money</span>
       <a class="font-bold hover:text-mim-ink" href="#top">Back to top</a>
