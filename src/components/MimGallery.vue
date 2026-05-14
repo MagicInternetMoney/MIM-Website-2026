@@ -7,7 +7,7 @@ type GalleryItem = {
   height: number;
   alt: string;
   title: string;
-  category: "Art" | "Proof" | "Origin";
+  category: "Art" | "Proof" | "Origin" | "Meme";
 };
 
 const props = defineProps<{

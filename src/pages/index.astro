@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import LiveDexStats from "../components/LiveDexStats.vue";
 import MimGallery from "../components/MimGallery.vue";
 import CopyContract from "../components/CopyContract.vue";
+import type { ImageMetadata } from "astro";
 import heroImage from "../../assets/hero-mim.png";
 import loreImage from "../../assets/lore-mim.jpeg";
 import communityImage from "../../assets/high-council.png";
@@ -38,8 +39,9 @@ const loreLinks = [
   { label: "Original Plan Spreadsheet", href: "https://docs.google.com/spreadsheets/d/1l6pSrGA9t1eMzZeC9jtdGbuLGp-lMx_vHzfjAL7dCeg/edit?usp=sharing" },
   { label: "2017 CoinMarketCap Archive", href: "https://web.archive.org/web/20171123024206/https://coinmarketcap.com/currencies/magic-internet-money/" },
 ];
-type GalleryCategory = "Art" | "Proof" | "Origin";
-const gallery = [
+type GalleryCategory = "Art" | "Proof" | "Origin" | "Meme";
+const memeImageModules = import.meta.glob<{ default: ImageMetadata }>("../../assets/memes/*.{png,jpg,jpeg,webp,gif}", { eager: true });
+const baseGallery = [
   { src: heroImage, alt: "Magic Internet Money illustrated hero banner", title: "High wizard table", category: "Art" },
   { src: headerImage, alt: "Magic Internet Money banner artwork", title: "All time high loading", category: "Art" },
   { src: communityImage, alt: "Meeting of the high council artwork", title: "Meeting of the high council", category: "Art" },
@@ -62,6 +64,19 @@ const gallery = [
   title: item.title,
   category: item.category as GalleryCategory,
 }));
+
+const memeGalleryItems = Object.entries(memeImageModules)
+  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+  .map(([, module], index) => ({
+    src: module.default.src,
+    width: module.default.width,
+    height: module.default.height,
+    alt: `Magic Internet Money meme ${index + 1}`,
+    title: `MIM meme ${String(index + 1).padStart(2, "0")}`,
+    category: "Meme" as GalleryCategory,
+  }));
+
+const gallery = [...baseGallery, ...memeGalleryItems];
 
 const featuredProofItems = [
   {
