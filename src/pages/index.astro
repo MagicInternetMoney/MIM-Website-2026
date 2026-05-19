@@ -3,8 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import LiveDexStats from "../components/LiveDexStats.vue";
 import MimGallery from "../components/MimGallery.vue";
 import CopyContract from "../components/CopyContract.vue";
+import ParticleBackdrop from "../components/ParticleBackdrop.vue";
 import type { ImageMetadata } from "astro";
-import heroImage from "../../assets/hero-mim.png";
+import heroImage from "../../assets/archmage-rabbits-cover-image.png";
 import loreImage from "../../assets/lore-mim.jpeg";
 import communityImage from "../../assets/high-council.png";
 import minionsImage from "../../assets/minions-of-poverty.png";
@@ -111,6 +112,8 @@ const featuredProofItems = [
 ---
 
 <BaseLayout>
+  <ParticleBackdrop client:load />
+
   <header class="fixed inset-x-0 top-0 z-30 border-b border-mim-violet/30 bg-mim-night/80 backdrop-blur-xl">
     <div class="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
       <a class="inline-flex items-center gap-3 font-black text-mim-ink" href="#top" aria-label="Magic Internet Money home">
@@ -128,10 +131,10 @@ const featuredProofItems = [
     </div>
   </header>
 
-  <main id="top">
+  <main id="top" class="relative z-10">
     <section class="relative grid min-h-[92svh] items-end overflow-hidden pt-20">
       <img
-        class="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+        class="absolute inset-0 -z-20 h-full w-full object-cover object-[50%_46%]"
         src={heroImage.src}
         width={heroImage.width}
         height={heroImage.height}
@@ -312,7 +315,7 @@ const featuredProofItems = [
     </section>
   </main>
 
-  <footer class="border-t border-mim-violet/30 px-4 py-7 text-mim-paper/65 sm:px-6 lg:px-8">
+  <footer class="relative z-10 border-t border-mim-violet/30 px-4 py-7 text-mim-paper/65 sm:px-6 lg:px-8">
     <div class="mx-auto flex w-full max-w-[1320px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <span class="font-black text-mim-ink">Magic Internet Money</span>
       <a class="font-bold hover:text-mim-ink" href="#top">Back to top</a>
