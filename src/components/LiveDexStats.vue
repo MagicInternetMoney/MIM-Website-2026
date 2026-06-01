@@ -9,7 +9,9 @@ const props = withDefaults(
 );
 
 const CONTRACT_ADDRESS = "89BZ5RU212yKr3iFdJHyn3ZsR37bS4s8TbmVb2yApump";
-const DEX_API = `https://api.dexscreener.com/token-pairs/v1/solana/${CONTRACT_ADDRESS}`;
+const DEXTOOLS_PAIR_ADDRESS = "9pjjP55ajXMPTDZnjhLKvLP4gCLVQhDx9EQi2ywJrc3Z";
+const DEXTOOLS_WIDGET_URL = `https://www.dextools.io/widget-chart/en/solana/pe-light/${DEXTOOLS_PAIR_ADDRESS}?theme=dark&chartType=1&chartResolution=15&drawingToolbars=false&chartInUsd=true&showTradeHistory=false`;
+const MARKET_DATA_API = `https://api.dexscreener.com/token-pairs/v1/solana/${CONTRACT_ADDRESS}`;
 const JUPITER_PLUGIN_URL = `https://plugin.jup.ag/?inputMint=So11111111111111111111111111111111111111112&outputMint=${CONTRACT_ADDRESS}`;
 const PUMP_URL = `https://pump.fun/coin/${CONTRACT_ADDRESS}`;
 const REFRESH_MS = 5000;
@@ -65,8 +67,8 @@ function pickPrimaryPair(pairs: DexPair[]) {
 
 async function updateDexData() {
   try {
-    const response = await fetch(DEX_API, { cache: "no-store" });
-    if (!response.ok) throw new Error(`DexScreener ${response.status}`);
+    const response = await fetch(MARKET_DATA_API, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Market data ${response.status}`);
 
     const pairs = (await response.json()) as DexPair[];
     if (!Array.isArray(pairs) || pairs.length === 0) throw new Error("No pairs found");
@@ -76,7 +78,7 @@ async function updateDexData() {
       hour: "numeric",
       minute: "2-digit",
       second: "2-digit",
-    })} from ${pair.value?.dexId || "DexScreener"}.`;
+    })} from ${pair.value?.dexId || "the market data feed"}.`;
   } catch {
     status.value = "Live market data is temporarily unavailable.";
   }
@@ -100,10 +102,7 @@ const changeText = computed(() =>
   Number.isFinite(h24.value) ? `24h ${h24.value > 0 ? "+" : ""}${h24.value.toFixed(2)}%` : "24h --",
 );
 const changeClass = computed(() => (h24.value >= 0 ? "text-mim-green" : "text-mim-red"));
-const chartSrc = computed(() => {
-  const id = pair.value?.pairAddress || CONTRACT_ADDRESS;
-  return `https://dexscreener.com/solana/${id}?embed=1&theme=dark`;
-});
+const chartSrc = DEXTOOLS_WIDGET_URL;
 
 onMounted(() => {
   updateDexData();
@@ -165,7 +164,7 @@ onUnmounted(() => {
     <section v-if="props.mode === 'markets'" id="tokenomics" class="mim-section">
       <div class="mb-7 max-w-3xl">
         <p class="eyebrow">Live tokenomics</p>
-        <h2 class="text-4xl font-black leading-none sm:text-6xl">Dex data, refreshed every 5 seconds</h2>
+        <h2 class="text-4xl font-black leading-none sm:text-6xl">Market stats, refreshed every 5 seconds</h2>
       </div>
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
         <article class="panel min-h-32 p-5">
@@ -198,11 +197,11 @@ onUnmounted(() => {
 
     <section v-if="props.mode === 'markets'" id="chart" class="mx-auto w-full max-w-[1400px] px-0 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
       <div class="mim-shell mb-7 px-4 sm:px-0">
-        <p class="eyebrow">Dex Screener</p>
+        <p class="eyebrow">DEXTools</p>
         <h2 class="text-4xl font-black leading-none sm:text-6xl">Live chart</h2>
       </div>
       <div class="h-[72svh] min-h-[620px] overflow-hidden border-y border-white/15 bg-mim-coal sm:rounded-lg sm:border">
-        <iframe class="h-full w-full border-0" title="MIM live Dex Screener chart" :src="chartSrc" loading="lazy"></iframe>
+        <iframe class="h-full w-full border-0" title="MIM live DEXTools chart" :src="chartSrc" loading="lazy"></iframe>
       </div>
     </section>
 

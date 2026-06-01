@@ -1,5 +1,7 @@
 const CONTRACT_ADDRESS = "89BZ5RU212yKr3iFdJHyn3ZsR37bS4s8TbmVb2yApump";
-const DEX_API = `https://api.dexscreener.com/token-pairs/v1/solana/${CONTRACT_ADDRESS}`;
+const DEXTOOLS_PAIR_ADDRESS = "9pjjP55ajXMPTDZnjhLKvLP4gCLVQhDx9EQi2ywJrc3Z";
+const DEXTOOLS_WIDGET_URL = `https://www.dextools.io/widget-chart/en/solana/pe-light/${DEXTOOLS_PAIR_ADDRESS}?theme=dark&chartType=1&chartResolution=15&drawingToolbars=false&chartInUsd=true&showTradeHistory=false`;
+const MARKET_DATA_API = `https://api.dexscreener.com/token-pairs/v1/solana/${CONTRACT_ADDRESS}`;
 const REFRESH_MS = 5000;
 
 const elements = {
@@ -61,18 +63,17 @@ function setText(nodes, value) {
   });
 }
 
-function updateChart(pair) {
-  if (!pair?.pairAddress || !elements.chart) return;
-  const next = `https://dexscreener.com/solana/${pair.pairAddress}?embed=1&theme=dark`;
-  if (elements.chart.src !== next) {
-    elements.chart.src = next;
+function updateChart() {
+  if (!elements.chart) return;
+  if (elements.chart.src !== DEXTOOLS_WIDGET_URL) {
+    elements.chart.src = DEXTOOLS_WIDGET_URL;
   }
 }
 
 async function updateDexData() {
   try {
-    const response = await fetch(DEX_API, { cache: "no-store" });
-    if (!response.ok) throw new Error(`DexScreener ${response.status}`);
+    const response = await fetch(MARKET_DATA_API, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Market data ${response.status}`);
     const pairs = await response.json();
     if (!Array.isArray(pairs) || pairs.length === 0) throw new Error("No pairs found");
 
@@ -99,9 +100,9 @@ async function updateDexData() {
     const direction = change >= 0 ? "var(--green)" : "var(--red)";
     elements.tickerChange.style.color = direction;
     elements.tickerChangeCopy.style.color = direction;
-    elements.status.textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" })} from ${pair.dexId || "DexScreener"}.`;
+    elements.status.textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" })} from ${pair.dexId || "the market data feed"}.`;
 
-    updateChart(pair);
+    updateChart();
   } catch (error) {
     elements.status.textContent = "Live market data is temporarily unavailable.";
   }

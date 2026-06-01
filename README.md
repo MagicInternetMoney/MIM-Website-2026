@@ -57,5 +57,5 @@ npm run preview
 ## Notes
 
 - `dist/`, `.astro/`, `.vite/`, and `node_modules/` are intentionally ignored.
-- Live market data is fetched client-side from DexScreener.
+- The embedded chart uses DEXTools, while live market stats are fetched client-side from the existing keyless market data feed.
 - The swap section embeds Jupiter Plugin.
