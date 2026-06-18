@@ -38,7 +38,7 @@ function closeItem() {
 </script>
 
 <template>
-  <section id="gallery" class="mim-section" aria-label="Magic Internet Money gallery">
+  <section id="gallery" class="mim-section" aria-label="Magic Internet Money™ gallery">
     <div class="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
       <div class="max-w-3xl">
         <p class="eyebrow">Gallery</p>

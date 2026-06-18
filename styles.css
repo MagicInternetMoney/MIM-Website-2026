@@ -318,6 +318,11 @@ p {
   font-size: 0.85rem;
 }
 
+.contract-box .token-name {
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
 .contract-box code {
   grid-column: 1 / -1;
   overflow-wrap: anywhere;

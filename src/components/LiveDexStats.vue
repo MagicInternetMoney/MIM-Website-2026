@@ -119,12 +119,12 @@ onUnmounted(() => {
     <div v-if="props.mode === 'ticker'" class="overflow-hidden border-y border-mim-violet/30 bg-mim-night" aria-label="Live price ticker">
       <div class="flex min-h-12 w-max items-center gap-7 px-4 text-sm text-mim-paper/72 [animation:mim-marquee_24s_linear_infinite]">
         <template v-for="copy in 2" :key="copy">
-          <span class="font-black text-mim-ink">MIM</span>
+          <span class="font-black text-mim-ink">MIMCOIN™</span>
           <strong class="text-mim-cyan">{{ price }}</strong>
           <span :class="changeClass">{{ changeText }}</span>
           <span>Vol {{ compact(pair?.volume?.h24) }}</span>
           <span>Liq {{ compact(pair?.liquidity?.usd) }}</span>
-          <span>Magic Internet Money</span>
+          <span>Magic Internet Money™</span>
         </template>
       </div>
     </div>
@@ -132,23 +132,25 @@ onUnmounted(() => {
     <section v-if="props.mode === 'markets'" id="buy" class="mim-section grid items-center gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14">
       <div>
         <p class="eyebrow">How to buy</p>
-        <h2 class="text-4xl font-black leading-none sm:text-6xl">Trade MIM live</h2>
+        <h2 class="text-4xl font-black leading-none sm:text-6xl">Buy Magic Internet Money™ (MIMCOIN™)</h2>
         <ol class="my-7 grid list-decimal gap-3 pl-5 leading-relaxed text-mim-paper/72">
           <li>Open the live Pump.fun market or connect a Solana wallet with Jupiter Plugin.</li>
           <li>Use SOL or USDC as the input token.</li>
-          <li>Confirm the output token is the MIM contract.</li>
+          <li>Confirm the output token is Magic Internet Money™ (MIMCOIN™).</li>
           <li>Review price impact, then swap.</li>
         </ol>
         <div class="mb-4 flex flex-col gap-3 sm:flex-row">
           <a class="button button-primary" :href="PUMP_URL" target="_blank" rel="noreferrer">Open Pump.fun</a>
           <a class="button button-secondary" href="#chart">View Live Chart</a>
         </div>
-        <div class="panel grid grid-cols-[1fr_auto] gap-2 p-4">
+        <div class="panel grid gap-2 p-4 sm:grid-cols-[1fr_auto]">
+          <span class="text-sm text-mim-paper/65">Token</span>
+          <strong class="break-words text-sm font-black text-mim-ink sm:text-right">Magic Internet Money™ (MIMCOIN™)</strong>
           <span class="text-sm text-mim-paper/65">Contract address</span>
-          <button class="rounded-lg border border-white/15 px-3 py-1 text-sm font-black text-mim-ink" type="button" @click="copyContract">
+          <button class="w-fit rounded-lg border border-white/15 px-3 py-1 text-sm font-black text-mim-ink sm:justify-self-end" type="button" @click="copyContract">
             {{ copied ? "Copied" : "Copy" }}
           </button>
-          <code class="col-span-2 break-words text-sm text-mim-cyan">{{ CONTRACT_ADDRESS }}</code>
+          <code class="break-words text-sm text-mim-cyan sm:col-span-2">{{ CONTRACT_ADDRESS }}</code>
         </div>
       </div>
       <div class="h-[650px] overflow-hidden rounded-lg border border-white/15 bg-mim-coal sm:h-[720px]">
@@ -201,7 +203,7 @@ onUnmounted(() => {
         <h2 class="text-4xl font-black leading-none sm:text-6xl">Live chart</h2>
       </div>
       <div class="h-[72svh] min-h-[620px] overflow-hidden border-y border-white/15 bg-mim-coal sm:rounded-lg sm:border">
-        <iframe class="h-full w-full border-0" title="MIM live DEXTools chart" :src="chartSrc" loading="lazy"></iframe>
+        <iframe class="h-full w-full border-0" title="MIMCOIN™ live DEXTools chart" :src="chartSrc" loading="lazy"></iframe>
       </div>
     </section>
 

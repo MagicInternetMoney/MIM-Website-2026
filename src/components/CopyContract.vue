@@ -20,7 +20,7 @@ async function copyContract() {
   <button
     class="inline-flex min-h-10 max-w-full items-center gap-2 rounded-lg border border-mim-cyan/35 bg-mim-night/75 px-3 text-left text-xs font-black uppercase tracking-[0.08em] text-mim-cyan shadow-glow transition hover:border-mim-green hover:text-mim-green"
     type="button"
-    aria-label="Copy MIM contract address"
+    aria-label="Copy MIMCOIN™ contract address"
     @click="copyContract"
   >
     <span>ca:</span>
